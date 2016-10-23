@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import "AssetsCollectionViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -17,6 +19,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    UICollectionViewLayout *collectionViewFlowLayout = [[UICollectionViewLayout alloc] init];
+    AssetsCollectionViewController *assetsCollectionViewController = [[AssetsCollectionViewController alloc] initWithCollectionViewLayout:collectionViewFlowLayout];
+    UINavigationController *navigationController = [[UINavigationController alloc] init];
+    navigationController.viewControllers = @[assetsCollectionViewController];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = navigationController;
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

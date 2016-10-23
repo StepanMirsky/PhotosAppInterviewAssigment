@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  AssetsCollectionViewController.h
 //  PhotosAppInterviewAssigment
 //
 //  Created by Stepan Mirskiy on 10/23/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface AssetsCollectionViewController : UICollectionViewController
 
 @end
-
