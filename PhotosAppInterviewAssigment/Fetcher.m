@@ -7,18 +7,29 @@
 //
 
 #import "Fetcher.h"
+#import "AssetCollectionPreview.h"
 
 @implementation Fetcher
 
-- (void)fetchAssetCollectionWithType:(PHAssetCollectionType)type
+- (NSMutableArray *)fetchAssetCollectionWithType:(PHAssetCollectionType)type
 {
     PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithType:type
                                                                           subtype:PHAssetCollectionSubtypeAny
                                                                           options:nil];
+    dispatch_queue_t serialQueue = dispatch_queue_create("ru.mail.fetchCollectionsQueue", DISPATCH_QUEUE_SERIAL);
+    NSMutableArray *assetCollectionsPreview = [NSMutableArray array];
+    
     [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *assetCollection, NSUInteger idx, BOOL *stop){
-        NSString *boolString = (stop) ? @"true" : @"false";
-        NSLog(@"%@ \n%lu \n%@", assetCollection, (unsigned long)idx, boolString);
+        dispatch_sync(serialQueue, ^{
+            PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
+            fetchOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d", PHAssetMediaTypeImage];
+            PHFetchResult *collectionFetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection options:fetchOptions];
+            AssetCollectionPreview *assetCollectionPreview = [[AssetCollectionPreview alloc] initWithTitle:assetCollection.localizedTitle count:collectionFetchResult.count collection:assetCollection];
+            [assetCollectionsPreview addObject:assetCollectionPreview];
+        });
     }];
+    
+    return assetCollectionsPreview;
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "AssetsCollectionViewController.h"
+#import "AssetCollectionsViewController.h"
 
 @interface AppDelegate ()
 
@@ -19,8 +19,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    UICollectionViewLayout *collectionViewFlowLayout = [[UICollectionViewLayout alloc] init];
-    AssetsCollectionViewController *assetsCollectionViewController = [[AssetsCollectionViewController alloc] initWithCollectionViewLayout:collectionViewFlowLayout];
+    UICollectionViewFlowLayout *collectionViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
+    collectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    AssetCollectionsViewController *assetsCollectionViewController = [[AssetCollectionsViewController alloc] initWithCollectionViewLayout:collectionViewFlowLayout];
     UINavigationController *navigationController = [[UINavigationController alloc] init];
     navigationController.viewControllers = @[assetsCollectionViewController];
     

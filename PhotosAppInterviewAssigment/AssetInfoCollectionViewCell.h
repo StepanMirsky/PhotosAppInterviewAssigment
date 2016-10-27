@@ -10,4 +10,8 @@
 
 @interface AssetInfoCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic) UIImageView *collectionPreviewImageView;
+@property (nonatomic) UILabel *assetCountLabel;
+@property (nonatomic) UILabel *assetTitleLabel;
+
 @end

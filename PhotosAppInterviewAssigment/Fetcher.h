@@ -12,6 +12,6 @@
 
 @interface Fetcher : NSObject
 
-- (void)fetchAssetCollectionWithType:(PHAssetCollectionType)type;
+- (NSMutableArray *)fetchAssetCollectionWithType:(PHAssetCollectionType)type;
 
 @end
