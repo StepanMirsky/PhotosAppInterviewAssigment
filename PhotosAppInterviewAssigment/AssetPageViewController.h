@@ -12,7 +12,6 @@
 
 @interface AssetPageViewController : UIPageViewController
 
-@property (nonatomic) PHAssetCollection *assetCollection;
 @property (nonatomic) PHFetchResult *fetchResult;
 @property (nonatomic) NSInteger currentIndex;
 
