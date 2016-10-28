@@ -13,5 +13,9 @@
 @interface Fetcher : NSObject
 
 - (NSMutableArray *)fetchAssetCollectionWithType:(PHAssetCollectionType)type;
+- (PHFetchResult *)fetchAssetsForCollection:(PHAssetCollection *)collection;
+
+- (void)fetchImageForLastAssetInCollection:(PHAssetCollection *)collection withSize:(CGSize)size callback:(void (^)(UIImage *image))callback;
+- (void)fetchImageForAsset:(PHAsset *)asset withSize:(CGSize)size contentMode:(PHImageContentMode)contentMode callback:(void (^)(UIImage *))callback;
 
 @end

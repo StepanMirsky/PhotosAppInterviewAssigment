@@ -12,9 +12,10 @@
 #import "AssetCollectionPreview.h"
 #import "AssetCollectionViewController.h"
 
-#import "UIImage+Resize.h"
-
 @import Photos;
+
+static NSString *const kReuseIdentifier = @"Cell";
+static NSInteger const kNumberOfSections = 1;
 
 @interface AssetCollectionsViewController ()
 
@@ -24,16 +25,43 @@
 
 @implementation AssetCollectionsViewController
 
-static NSString *const kReuseIdentifier = @"Cell";
+#pragma view controller lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.clearsSelectionOnViewWillAppear = NO;
+    
     self.dataSource = [NSMutableArray array];
-    
     [self setupCollectionView];
-    
+    [self checkPhotosAuthorizationStatus];
+}
+
+- (void)setupCollectionView
+{
+    [self.collectionView registerClass:[AssetInfoCollectionViewCell class] forCellWithReuseIdentifier:kReuseIdentifier];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)fetchDataSource
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        Fetcher *fetcher = [Fetcher new];
+        self.dataSource = [fetcher fetchAssetCollectionWithType:PHAssetCollectionTypeAlbum];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
+    });
+}
+
+- (void)checkPhotosAuthorizationStatus
+{
     switch ([PHPhotoLibrary authorizationStatus]) {
         case PHAuthorizationStatusNotDetermined:{
             NSLog(@"Access is not determined, requesting it");
@@ -61,36 +89,12 @@ static NSString *const kReuseIdentifier = @"Cell";
             NSLog(@"Acess restricted");
             break;
     }
-    
 }
 
-- (void)setupCollectionView
-{
-    [self.collectionView registerClass:[AssetInfoCollectionViewCell class] forCellWithReuseIdentifier:kReuseIdentifier];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)fetchDataSource
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        Fetcher *fetcher = [Fetcher new];
-        self.dataSource = [fetcher fetchAssetCollectionWithType:PHAssetCollectionTypeAlbum];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-        });
-    });
-}
-
-#pragma mark <UICollectionViewDataSource>
+#pragma mark - collection view data source
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return kNumberOfSections;
 }
 
 
@@ -103,25 +107,19 @@ static NSString *const kReuseIdentifier = @"Cell";
     
     AssetCollectionPreview *assetCollectionPreview = self.dataSource[indexPath.row];
     cell.assetTitleLabel.text = assetCollectionPreview.title;
-    cell.assetCountLabel.text = [NSString stringWithFormat:@"%d", assetCollectionPreview.count];
+    cell.assetCountLabel.text = [NSString stringWithFormat:@"%ld", (long)assetCollectionPreview.count];
     
     cell.collectionPreviewImageView.layer.cornerRadius = 5.0;
     cell.collectionPreviewImageView.clipsToBounds = true;
     
     if (assetCollectionPreview.count > 0) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            PHFetchOptions *options = [[PHFetchOptions alloc] init];
-            options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:false]];
-            options.fetchLimit = 1;
-            
-            PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollectionPreview.assetCollection options:options];
-            if (fetchResult.count != 0) {
-                [[PHImageManager defaultManager] requestImageForAsset:fetchResult.firstObject targetSize:cell.collectionPreviewImageView.frame.size  contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage *image, NSDictionary *dictionary){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        cell.collectionPreviewImageView.image = image.cropImage;
-                    });
-                }];
-            }
+            Fetcher *fetcher = [Fetcher new];
+            [fetcher fetchImageForLastAssetInCollection:assetCollectionPreview.assetCollection withSize:cell.collectionPreviewImageView.frame.size callback:^(UIImage *image){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.collectionPreviewImageView.image = image;
+                });
+            }];
         });
     } else {
         NSLog(@"no image for %@", assetCollectionPreview.title);

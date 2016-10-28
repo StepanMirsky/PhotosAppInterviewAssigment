@@ -8,6 +8,8 @@
 
 #import "AssetViewController.h"
 
+#import "Fetcher.h"
+
 @interface AssetViewController ()
 
 @property (nonatomic) UIImageView *imageView;
@@ -26,7 +28,8 @@
     [self setupConstraints];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [[PHImageManager defaultManager] requestImageForAsset:self.asset targetSize:self.view.frame.size contentMode:PHImageContentModeAspectFit options:nil resultHandler:^(UIImage *image, NSDictionary *dictionary){
+        Fetcher *fetcher = [Fetcher new];
+        [fetcher fetchImageForAsset:self.asset withSize:self.view.frame.size contentMode:PHImageContentModeAspectFit callback:^(UIImage *image){
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.imageView.contentMode = UIViewContentModeScaleAspectFit;
                 self.imageView.image = image;

@@ -10,7 +10,11 @@
 #import "AssetCollectionViewCell.h"
 
 #import "AssetPageViewController.h"
-#import "UIImage+Resize.h"
+
+#import "Fetcher.h"
+
+static NSString *const kReuseIdentifier = @"Cell";
+static NSInteger const kNumberOfSections = 1;
 
 @interface AssetCollectionViewController ()
 
@@ -20,20 +24,19 @@
 
 @implementation AssetCollectionViewController
 
-static NSString *const kReuseIdentifier = @"Cell";
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Register cell classes
     [self.collectionView registerClass:[AssetCollectionViewCell class] forCellWithReuseIdentifier:kReuseIdentifier];
-    
-    // Do any additional setup after loading the view.
     self.collectionView.backgroundColor = [UIColor whiteColor];
-    self.fetchResult = [PHAsset fetchAssetsInAssetCollection:self.assetCollection options:nil];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        Fetcher *fetcher = [Fetcher new];
+        self.fetchResult = [fetcher fetchAssetsForCollection:self.assetCollection];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,7 +47,7 @@ static NSString *const kReuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return kNumberOfSections;
 }
 
 
@@ -58,14 +61,9 @@ static NSString *const kReuseIdentifier = @"Cell";
     PHAsset *asset = self.fetchResult[indexPath.row];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        PHImageRequestOptions *requestOptions = [[PHImageRequestOptions alloc] init];
-//        requestOptions.normalizedCropRect = cell.imageView.bounds;
-        requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-        requestOptions.synchronous = true;
-//        requestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
-        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:cell.imageView.frame.size contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage *image, NSDictionary *dictionary){
+        Fetcher *fetcher = [Fetcher new];
+        [fetcher fetchImageForAsset:asset withSize:cell.imageView.frame.size contentMode:PHImageContentModeAspectFill callback:^(UIImage *image){
             dispatch_async(dispatch_get_main_queue(), ^{
-//                cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
                 cell.imageView.image = image;
             });
         }];

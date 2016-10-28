@@ -12,7 +12,6 @@
 		0CDF4EB61DC1F508000ACFFD /* AssetCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF4EB51DC1F508000ACFFD /* AssetCollectionViewCell.m */; };
 		0CDF4EB91DC20877000ACFFD /* AssetPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF4EB81DC20877000ACFFD /* AssetPageViewController.m */; };
 		0CDF4EC01DC20ECF000ACFFD /* AssetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF4EBF1DC20ECF000ACFFD /* AssetViewController.m */; };
-		0CDF4EC31DC23319000ACFFD /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF4EC21DC23319000ACFFD /* UIImage+Resize.m */; };
 		40AEBF891DBCD87200AD95D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AEBF881DBCD87200AD95D1 /* main.m */; };
 		40AEBF8C1DBCD87200AD95D1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AEBF8B1DBCD87200AD95D1 /* AppDelegate.m */; };
 		40AEBF941DBCD87200AD95D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40AEBF931DBCD87200AD95D1 /* Assets.xcassets */; };
@@ -33,8 +32,6 @@
 		0CDF4EB81DC20877000ACFFD /* AssetPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetPageViewController.m; sourceTree = "<group>"; };
 		0CDF4EBE1DC20ECF000ACFFD /* AssetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetViewController.h; sourceTree = "<group>"; };
 		0CDF4EBF1DC20ECF000ACFFD /* AssetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetViewController.m; sourceTree = "<group>"; };
-		0CDF4EC11DC23319000ACFFD /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
-		0CDF4EC21DC23319000ACFFD /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		40AEBF841DBCD87200AD95D1 /* PhotosAppInterviewAssigment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosAppInterviewAssigment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40AEBF881DBCD87200AD95D1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		40AEBF8A1DBCD87200AD95D1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -108,8 +105,6 @@
 		0CDF4EC41DC2331B000ACFFD /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				0CDF4EC11DC23319000ACFFD /* UIImage+Resize.h */,
-				0CDF4EC21DC23319000ACFFD /* UIImage+Resize.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -235,7 +230,6 @@
 				40AEBF891DBCD87200AD95D1 /* main.m in Sources */,
 				0CDF4EB91DC20877000ACFFD /* AssetPageViewController.m in Sources */,
 				0CDF4EC01DC20ECF000ACFFD /* AssetViewController.m in Sources */,
-				0CDF4EC31DC23319000ACFFD /* UIImage+Resize.m in Sources */,
 				0CDF4EAE1DC07649000ACFFD /* AssetCollectionPreview.m in Sources */,
 				0CDF4EB31DC1EB0D000ACFFD /* AssetCollectionViewController.m in Sources */,
 			);
