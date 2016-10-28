@@ -19,6 +19,8 @@ static NSInteger const kNumberOfSections = 1;
 @interface AssetCollectionViewController ()
 
 @property (nonatomic) PHFetchResult *fetchResult;
+@property (nonatomic) CGSize cellSize;
+@property (nonatomic) CGSize imageSize;
 
 @end
 
@@ -37,6 +39,16 @@ static NSInteger const kNumberOfSections = 1;
             [self.collectionView reloadData];
         });
     });
+    
+    [self setupSizes];
+}
+
+- (void)setupSizes
+{
+    CGFloat sideLength = 70;
+    CGFloat scale = [UIScreen mainScreen].scale;
+    self.cellSize = CGSizeMake(sideLength, sideLength);
+    self.imageSize = CGSizeMake(sideLength * scale, sideLength * scale);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,7 +74,7 @@ static NSInteger const kNumberOfSections = 1;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         Fetcher *fetcher = [Fetcher new];
-        [fetcher fetchImageForAsset:asset withSize:cell.imageView.frame.size contentMode:PHImageContentModeAspectFill callback:^(UIImage *image){
+        [fetcher fetchImageForAsset:asset withSize:self.imageSize contentMode:PHImageContentModeAspectFill callback:^(UIImage *image){
             dispatch_async(dispatch_get_main_queue(), ^{
                 cell.imageView.image = image;
             });
@@ -74,7 +86,7 @@ static NSInteger const kNumberOfSections = 1;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(70, 70);
+    return self.cellSize;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

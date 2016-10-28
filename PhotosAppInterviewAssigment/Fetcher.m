@@ -45,11 +45,10 @@
 
 - (void)fetchImageForAsset:(PHAsset *)asset withSize:(CGSize)size contentMode:(PHImageContentMode)contentMode callback:(void (^)(UIImage *))callback
 {
-    PHImageRequestOptions *requestOptions = [[PHImageRequestOptions alloc] init];
-    //        requestOptions.normalizedCropRect = cell.imageView.bounds;
-    requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    PHImageRequestOptions *requestOptions = [PHImageRequestOptions new];
     requestOptions.synchronous = true;
-    //        requestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+    requestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+    
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:contentMode options:requestOptions resultHandler:^(UIImage *image, NSDictionary *dictionary){
         callback(image);
     }];
@@ -57,7 +56,7 @@
 
 - (void)fetchImageForLastAssetInCollection:(PHAssetCollection *)collection withSize:(CGSize)size callback:(void (^)(UIImage *))callback
 {
-    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    PHFetchOptions *options = [PHFetchOptions new];
     options.sortDescriptors = @[
                                 [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:false]
                                 ];
@@ -66,7 +65,12 @@
     
     PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
     if (fetchResult.count != 0) {
-        [[PHImageManager defaultManager] requestImageForAsset:fetchResult.firstObject targetSize:size  contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage *image, NSDictionary *dictionary){
+        PHImageRequestOptions *requestOptions = [PHImageRequestOptions new];
+        requestOptions.synchronous = true;
+        requestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+        
+        [[PHImageManager defaultManager] requestImageForAsset:fetchResult.firstObject targetSize:size  contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage *image, NSDictionary *dictionary){
+            NSLog(@"%@", image);
             callback(image);
         }];
     }

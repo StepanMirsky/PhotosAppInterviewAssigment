@@ -20,6 +20,8 @@ static NSInteger const kNumberOfSections = 1;
 @interface AssetCollectionsViewController ()
 
 @property (nonatomic) NSMutableArray *dataSource;
+@property (nonatomic) CGSize cellSize;
+@property (nonatomic) CGSize imageSize;
 
 @end
 
@@ -35,6 +37,7 @@ static NSInteger const kNumberOfSections = 1;
     self.dataSource = [NSMutableArray array];
     [self setupCollectionView];
     [self checkPhotosAuthorizationStatus];
+    [self setupSizes];
 }
 
 - (void)setupCollectionView
@@ -69,6 +72,11 @@ static NSInteger const kNumberOfSections = 1;
                 if (status == PHAuthorizationStatusAuthorized) {
                     NSLog(@"Access granted, fetching data");
                     [self fetchDataSource];
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self authorizationStatusFailedAlertController];
+                        [self labelForFailedPhotosAutorization];
+                    });
                 }
             }];
             break;
@@ -76,6 +84,8 @@ static NSInteger const kNumberOfSections = 1;
             
         case PHAuthorizationStatusDenied:
             NSLog(@"User denied access to photos");
+            [self authorizationStatusFailedAlertController];
+            [self labelForFailedPhotosAutorization];
             break;
             
         case PHAuthorizationStatusAuthorized:{
@@ -87,8 +97,18 @@ static NSInteger const kNumberOfSections = 1;
             
         case PHAuthorizationStatusRestricted:
             NSLog(@"Acess restricted");
+            [self authorizationStatusFailedAlertController];
+            [self labelForFailedPhotosAutorization];
             break;
     }
+}
+
+- (void)setupSizes
+{
+    CGFloat cellWidth = [UIScreen mainScreen].bounds.size.width / 2 - 20;
+    CGFloat scale = [UIScreen mainScreen].scale;
+    self.cellSize = CGSizeMake(cellWidth, 200);
+    self.imageSize = CGSizeMake((cellWidth - 8) * scale, (cellWidth - 8) * scale);
 }
 
 #pragma mark - collection view data source
@@ -115,7 +135,7 @@ static NSInteger const kNumberOfSections = 1;
     if (assetCollectionPreview.count > 0) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             Fetcher *fetcher = [Fetcher new];
-            [fetcher fetchImageForLastAssetInCollection:assetCollectionPreview.assetCollection withSize:cell.collectionPreviewImageView.frame.size callback:^(UIImage *image){
+            [fetcher fetchImageForLastAssetInCollection:assetCollectionPreview.assetCollection withSize:self.imageSize callback:^(UIImage *image){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     cell.collectionPreviewImageView.image = image;
                 });
@@ -131,7 +151,7 @@ static NSInteger const kNumberOfSections = 1;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake([UIScreen mainScreen].bounds.size.width / 2 - 20, 200);
+    return self.cellSize;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -145,6 +165,31 @@ static NSInteger const kNumberOfSections = 1;
     AssetCollectionViewController *assetCollectionViewController = [[AssetCollectionViewController alloc] initWithCollectionViewLayout:collectionViewFlowLayout];
     assetCollectionViewController.assetCollection = assetCollectionPreview.assetCollection;
     [self.navigationController pushViewController:assetCollectionViewController animated:true];
+}
+
+- (void)authorizationStatusFailedAlertController
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Access denied" message:@"To use this application you need to get it access to photo library" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *settings = [UIAlertAction actionWithTitle:@"Setting" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
+        
+    }];
+    
+    [alertController addAction:settings];
+    [alertController addAction:cancel];
+    
+    [self presentViewController:alertController animated:true completion:nil];
+}
+
+- (void)labelForFailedPhotosAutorization
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:self.view.frame];
+    label.text = @"Access to photos denied";
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
 }
 
 @end

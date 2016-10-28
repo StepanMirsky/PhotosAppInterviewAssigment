@@ -26,7 +26,11 @@
     [self.view addSubview:self.imageView];
     
     [self setupConstraints];
-    
+    [self fetchImage];
+}
+
+- (void)fetchImage
+{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         Fetcher *fetcher = [Fetcher new];
         [fetcher fetchImageForAsset:self.asset withSize:self.view.frame.size contentMode:PHImageContentModeAspectFit callback:^(UIImage *image){
