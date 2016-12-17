@@ -106,8 +106,9 @@ static NSInteger const kNumberOfSections = 1;
 - (void)setupSizes
 {
     CGFloat cellWidth = [UIScreen mainScreen].bounds.size.width / 2 - 20;
+    CGFloat cellHeight = cellWidth + 50;
     CGFloat scale = [UIScreen mainScreen].scale;
-    self.cellSize = CGSizeMake(cellWidth, 200);
+    self.cellSize = CGSizeMake(cellWidth, cellHeight);
     self.imageSize = CGSizeMake((cellWidth - 8) * scale, (cellWidth - 8) * scale);
 }
 

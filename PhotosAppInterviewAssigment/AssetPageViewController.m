@@ -51,7 +51,7 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
     AssetViewController *currentAssetViewController = (AssetViewController *)viewController;
-    if (currentAssetViewController.index < self.fetchResult.count) {
+    if (currentAssetViewController.index < self.fetchResult.count - 1) {
         AssetViewController *assetViewController = [[AssetViewController alloc] init];
         assetViewController.asset = self.fetchResult[currentAssetViewController.index + 1];
         assetViewController.index = currentAssetViewController.index + 1;
