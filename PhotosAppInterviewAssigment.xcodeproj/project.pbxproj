@@ -12,6 +12,7 @@
 		0CDF4EB61DC1F508000ACFFD /* AssetCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF4EB51DC1F508000ACFFD /* AssetCollectionViewCell.m */; };
 		0CDF4EB91DC20877000ACFFD /* AssetPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF4EB81DC20877000ACFFD /* AssetPageViewController.m */; };
 		0CDF4EC01DC20ECF000ACFFD /* AssetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF4EBF1DC20ECF000ACFFD /* AssetViewController.m */; };
+		40AA038C1FAE0A9500AA4C89 /* UICollectionViewCell+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AA038B1FAE0A9500AA4C89 /* UICollectionViewCell+Extension.m */; };
 		40AEBF891DBCD87200AD95D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AEBF881DBCD87200AD95D1 /* main.m */; };
 		40AEBF8C1DBCD87200AD95D1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AEBF8B1DBCD87200AD95D1 /* AppDelegate.m */; };
 		40AEBF941DBCD87200AD95D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40AEBF931DBCD87200AD95D1 /* Assets.xcassets */; };
@@ -32,6 +33,8 @@
 		0CDF4EB81DC20877000ACFFD /* AssetPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetPageViewController.m; sourceTree = "<group>"; };
 		0CDF4EBE1DC20ECF000ACFFD /* AssetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetViewController.h; sourceTree = "<group>"; };
 		0CDF4EBF1DC20ECF000ACFFD /* AssetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetViewController.m; sourceTree = "<group>"; };
+		40AA038A1FAE0A9500AA4C89 /* UICollectionViewCell+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewCell+Extension.h"; sourceTree = "<group>"; };
+		40AA038B1FAE0A9500AA4C89 /* UICollectionViewCell+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewCell+Extension.m"; sourceTree = "<group>"; };
 		40AEBF841DBCD87200AD95D1 /* PhotosAppInterviewAssigment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosAppInterviewAssigment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40AEBF881DBCD87200AD95D1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		40AEBF8A1DBCD87200AD95D1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -58,16 +61,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0CDF4EBA1DC2087F000ACFFD /* Fetch */ = {
+		40AA03841FAE074800AA4C89 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				40AEBFA41DBD0B6800AD95D1 /* Fetcher.h */,
-				40AEBFA51DBD0B6800AD95D1 /* Fetcher.m */,
+				40AA038A1FAE0A9500AA4C89 /* UICollectionViewCell+Extension.h */,
+				40AA038B1FAE0A9500AA4C89 /* UICollectionViewCell+Extension.m */,
 			);
-			name = Fetch;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
-		0CDF4EBB1DC2088E000ACFFD /* Controller */ = {
+		40AA03851FAE075500AA4C89 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0CDF4EB41DC1F508000ACFFD /* AssetCollectionViewCell.h */,
+				0CDF4EB51DC1F508000ACFFD /* AssetCollectionViewCell.m */,
+				40AEBF9E1DBCD8A600AD95D1 /* AssetInfoCollectionViewCell.h */,
+				40AEBF9F1DBCD8A600AD95D1 /* AssetInfoCollectionViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		40AA03861FAE07A500AA4C89 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0CDF4EAC1DC07649000ACFFD /* AssetCollectionPreview.h */,
+				0CDF4EAD1DC07649000ACFFD /* AssetCollectionPreview.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		40AA03881FAE07B800AA4C89 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				0CDF4EB71DC20877000ACFFD /* AssetPageViewController.h */,
@@ -79,34 +102,16 @@
 				0CDF4EB11DC1EB0D000ACFFD /* AssetCollectionViewController.h */,
 				0CDF4EB21DC1EB0D000ACFFD /* AssetCollectionViewController.m */,
 			);
-			name = Controller;
+			path = Controller;
 			sourceTree = "<group>";
 		};
-		0CDF4EBC1DC20894000ACFFD /* Model */ = {
+		40AA03891FAE07D100AA4C89 /* Fetch */ = {
 			isa = PBXGroup;
 			children = (
-				0CDF4EAC1DC07649000ACFFD /* AssetCollectionPreview.h */,
-				0CDF4EAD1DC07649000ACFFD /* AssetCollectionPreview.m */,
+				40AEBFA41DBD0B6800AD95D1 /* Fetcher.h */,
+				40AEBFA51DBD0B6800AD95D1 /* Fetcher.m */,
 			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		0CDF4EBD1DC20898000ACFFD /* View */ = {
-			isa = PBXGroup;
-			children = (
-				0CDF4EB41DC1F508000ACFFD /* AssetCollectionViewCell.h */,
-				0CDF4EB51DC1F508000ACFFD /* AssetCollectionViewCell.m */,
-				40AEBF9E1DBCD8A600AD95D1 /* AssetInfoCollectionViewCell.h */,
-				40AEBF9F1DBCD8A600AD95D1 /* AssetInfoCollectionViewCell.m */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		0CDF4EC41DC2331B000ACFFD /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Utilities;
+			path = Fetch;
 			sourceTree = "<group>";
 		};
 		40AEBF7B1DBCD87200AD95D1 = {
@@ -128,11 +133,11 @@
 		40AEBF861DBCD87200AD95D1 /* PhotosAppInterviewAssigment */ = {
 			isa = PBXGroup;
 			children = (
-				0CDF4EC41DC2331B000ACFFD /* Utilities */,
-				0CDF4EBD1DC20898000ACFFD /* View */,
-				0CDF4EBC1DC20894000ACFFD /* Model */,
-				0CDF4EBB1DC2088E000ACFFD /* Controller */,
-				0CDF4EBA1DC2087F000ACFFD /* Fetch */,
+				40AA03891FAE07D100AA4C89 /* Fetch */,
+				40AA03881FAE07B800AA4C89 /* Controller */,
+				40AA03861FAE07A500AA4C89 /* Model */,
+				40AA03851FAE075500AA4C89 /* View */,
+				40AA03841FAE074800AA4C89 /* Utilities */,
 				40AEBF8A1DBCD87200AD95D1 /* AppDelegate.h */,
 				40AEBF8B1DBCD87200AD95D1 /* AppDelegate.m */,
 				40AEBF931DBCD87200AD95D1 /* Assets.xcassets */,
@@ -177,7 +182,7 @@
 		40AEBF7C1DBCD87200AD95D1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Mail.Ru Group";
 				TargetAttributes = {
 					40AEBF831DBCD87200AD95D1 = {
@@ -224,6 +229,7 @@
 			files = (
 				40AEBFA01DBCD8A600AD95D1 /* AssetInfoCollectionViewCell.m in Sources */,
 				40AEBF8C1DBCD87200AD95D1 /* AppDelegate.m in Sources */,
+				40AA038C1FAE0A9500AA4C89 /* UICollectionViewCell+Extension.m in Sources */,
 				40AEBFA31DBCD8BE00AD95D1 /* AssetCollectionsViewController.m in Sources */,
 				0CDF4EB61DC1F508000ACFFD /* AssetCollectionViewCell.m in Sources */,
 				40AEBFA61DBD0B6800AD95D1 /* Fetcher.m in Sources */,
@@ -258,7 +264,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -266,7 +274,12 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -305,7 +318,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -313,7 +328,12 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

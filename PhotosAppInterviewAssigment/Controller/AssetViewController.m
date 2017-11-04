@@ -31,10 +31,11 @@
 
 - (void)fetchImage
 {
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGSize imageSize = CGSizeMake(self.view.frame.size.width * scale, self.view.frame.size.height * scale);
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         Fetcher *fetcher = [Fetcher new];
-        CGFloat scale = [UIScreen mainScreen].scale;
-        CGSize imageSize = CGSizeMake(self.view.frame.size.width * scale, self.view.frame.size.height * scale);
         [fetcher fetchImageForAsset:self.asset withSize:imageSize contentMode:PHImageContentModeAspectFit callback:^(UIImage *image){
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.imageView.contentMode = UIViewContentModeScaleAspectFit;

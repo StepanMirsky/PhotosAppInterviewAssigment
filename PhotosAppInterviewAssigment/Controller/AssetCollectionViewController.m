@@ -13,7 +13,8 @@
 
 #import "Fetcher.h"
 
-static NSString *const kReuseIdentifier = @"Cell";
+#import "UICollectionViewCell+Extension.h"
+
 static NSInteger const kNumberOfSections = 1;
 
 @interface AssetCollectionViewController ()
@@ -29,7 +30,7 @@ static NSInteger const kNumberOfSections = 1;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.collectionView registerClass:[AssetCollectionViewCell class] forCellWithReuseIdentifier:kReuseIdentifier];
+    [self.collectionView registerClass:[AssetCollectionViewCell class] forCellWithReuseIdentifier:[AssetCollectionViewCell identifier]];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -43,17 +44,11 @@ static NSInteger const kNumberOfSections = 1;
     [self setupSizes];
 }
 
-- (void)setupSizes
-{
+- (void)setupSizes {
     CGFloat sideLength = 70;
     CGFloat scale = [UIScreen mainScreen].scale;
     self.cellSize = CGSizeMake(sideLength, sideLength);
     self.imageSize = CGSizeMake(sideLength * scale, sideLength * scale);
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -68,7 +63,7 @@ static NSInteger const kNumberOfSections = 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    AssetCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kReuseIdentifier forIndexPath:indexPath];
+    AssetCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[AssetCollectionViewCell identifier] forIndexPath:indexPath];
     
     PHAsset *asset = self.fetchResult[indexPath.row];
     
@@ -84,13 +79,11 @@ static NSInteger const kNumberOfSections = 1;
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return self.cellSize;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:true];
     
     AssetPageViewController *assetPageViewController = [[AssetPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
